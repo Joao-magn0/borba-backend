@@ -6,7 +6,7 @@ const Usuario = require("../models/Usuario");
 
 const JWT_SECRET = process.env.JWT_SECRET || "segredo-borba";
 
-router.post("/registrar", async (req, res) => {
+router.post("/register", async (req, res) => {
   const { usuario, senha, hierarquia } = req.body;
 
   if (!usuario || !senha || !hierarquia) {
