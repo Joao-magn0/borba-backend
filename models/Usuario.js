@@ -1,19 +1,19 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const UsuarioSchema = new mongoose.Schema({
   usuario: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   senha: {
     type: String,
-    required: true
+    required: true,
   },
   hierarquia: {
     type: String,
     enum: ["admin", "funcionario"],
-    default: "funcionario"
+    required: true,
   }
 });
 

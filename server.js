@@ -6,7 +6,7 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Conectar ao MongoDB Atlas
+// Conectar ao MongoDB
 connectDB();
 
 // Middlewares
@@ -17,9 +17,7 @@ app.use(express.json());
 app.use("/api/financeiro", require("./routes/financeiroRoutes"));
 app.use("/api/funcionarios", require("./routes/funcionarioRoutes"));
 app.use("/api/produtos", require("./routes/produtoRoutes"));
-app.use("/api/usuarios", require("./routes/usuarioRoutes")); // 👈 ADICIONADA AQUI
-app.use("/api/auth", require("./routes/authRoutes"));
-
+app.use("/api/auth", require("./routes/auth")); // ✅ AUTENTICAÇÃO
 
 // Rota base
 app.get("/", (req, res) => {

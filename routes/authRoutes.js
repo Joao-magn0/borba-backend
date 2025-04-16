@@ -6,7 +6,7 @@ const Usuario = require("../models/Usuario");
 
 const JWT_SECRET = process.env.JWT_SECRET || "segredo-borba";
 
-// Rota de registro
+// REGISTRO
 router.post("/register", async (req, res) => {
   const { usuario, senha, hierarquia } = req.body;
 
@@ -30,38 +30,32 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Rota de login
+// LOGIN
 router.post("/login", async (req, res) => {
-  const { usuario, senha } = req.body;
+  const { username, password } = req.body;
 
-  if (!usuario || !senha) {
+  if (!username || !password) {
     return res.status(400).json({ message: "Preencha todos os campos." });
   }
 
   try {
-    const user = await Usuario.findOne({ usuario });
-    if (!user) {
-      return res.status(404).json({ message: "Usuário não encontrado." });
+    const usuario = await Usuario.findOne({ usuario: username });
+    if (!usuario) {
+      return res.status(400).json({ message: "Usuário não encontrado." });
     }
 
-    const senhaValida = await bcrypt.compare(senha, user.senha);
-    if (!senhaValida) {
-      return res.status(401).json({ message: "Senha incorreta." });
+    const senhaCorreta = await bcrypt.compare(password, usuario.senha);
+    if (!senhaCorreta) {
+      return res.status(400).json({ message: "Senha incorreta." });
     }
 
-    const token = jwt.sign(
-      { id: user._id, hierarquia: user.hierarquia, usuario: user.usuario },
-      JWT_SECRET,
-      { expiresIn: "7d" }
-    );
-
-    res.status(200).json({
-      token,
-      usuario: user.usuario,
-      hierarquia: user.hierarquia,
+    const token = jwt.sign({ id: usuario._id, hierarquia: usuario.hierarquia }, JWT_SECRET, {
+      expiresIn: "7d",
     });
+
+    res.json({ token, username: usuario.usuario, hierarquia: usuario.hierarquia });
   } catch (error) {
-    res.status(500).json({ message: "Erro no servidor." });
+    res.status(500).json({ message: "Erro no login." });
   }
 });
 
