@@ -17,7 +17,7 @@ app.use(express.json());
 app.use("/api/financeiro", require("./routes/financeiroRoutes"));
 app.use("/api/funcionarios", require("./routes/funcionarioRoutes"));
 app.use("/api/produtos", require("./routes/produtoRoutes"));
-
+app.use("/api/usuarios", require("./routes/usuarioRoutes")); // 👈 ADICIONADA AQUI
 
 // Rota base
 app.get("/", (req, res) => {
