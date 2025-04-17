@@ -4,6 +4,7 @@ const controller = require('../controllers/produtoController');
 
 router.get('/', controller.getProdutos);
 router.post('/', controller.createProduto);
+router.patch('/:id/quantidade', controller.updateQuantidade);  // nova rota
 router.delete('/:id', controller.deleteProduto);
 
 module.exports = router;
