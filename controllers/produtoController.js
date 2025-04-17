@@ -19,13 +19,16 @@ exports.createProduto = async (req, res) => {
   }
 };
 
-// **NOVO**: atualiza quantidade somando o delta (+ ou –)
-exports.updateQuantidade = async (req, res) => {
+// **NOVO**: altera a quantidade para o valor exato enviado { quantidade }
+exports.updateProduto = async (req, res) => {
   try {
-    const { delta } = req.body; // espera { delta: 1 } ou { delta: -1 }
+    const { quantidade } = req.body;
+    if (quantidade == null || quantidade < 0) {
+      return res.status(400).json({ message: "Quantidade inválida." });
+    }
     const produto = await Produto.findById(req.params.id);
     if (!produto) return res.status(404).json({ message: 'Produto não encontrado' });
-    produto.quantidade = Math.max(0, produto.quantidade + delta);
+    produto.quantidade = quantidade;
     await produto.save();
     res.json(produto);
   } catch (err) {
