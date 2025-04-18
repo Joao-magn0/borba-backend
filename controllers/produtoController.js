@@ -19,7 +19,7 @@ exports.createProduto = async (req, res) => {
   }
 };
 
-// **NOVO**: altera a quantidade para o valor exato enviado em { quantidade }
+// **NOVO**: atualiza QUANTIDADE para o valor exato que vier em req.body.quantidade
 exports.updateProduto = async (req, res) => {
   try {
     const { quantidade } = req.body;
@@ -28,7 +28,7 @@ exports.updateProduto = async (req, res) => {
     }
     const produto = await Produto.findById(req.params.id);
     if (!produto) {
-      return res.status(404).json({ message: 'Produto não encontrado' });
+      return res.status(404).json({ message: "Produto não encontrado." });
     }
     produto.quantidade = quantidade;
     await produto.save();
@@ -42,9 +42,9 @@ exports.deleteProduto = async (req, res) => {
   try {
     const produto = await Produto.findByIdAndDelete(req.params.id);
     if (!produto) {
-      return res.status(404).json({ message: 'Produto não encontrado' });
+      return res.status(404).json({ message: "Produto não encontrado." });
     }
-    res.json({ message: 'Produto removido' });
+    res.json({ message: "Produto removido." });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

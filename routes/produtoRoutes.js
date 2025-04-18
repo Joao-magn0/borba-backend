@@ -1,10 +1,17 @@
-const express = require('express');
-const router  = express.Router();
+const express    = require('express');
+const router     = express.Router();
 const controller = require('../controllers/produtoController');
 
-router.get('/',       controller.getProdutos);
-router.post('/',      controller.createProduto);
-router.patch('/:id',  controller.updateProduto);    // PATCH agora aceita { quantidade }
+// lista todos os produtos
+router.get('/', controller.getProdutos);
+
+// cria um novo produto
+router.post('/', controller.createProduto);
+
+// atualiza QUANTIDADE EXATA no produto { quantidade }
+router.patch('/:id', controller.updateProduto);
+
+// remove produto
 router.delete('/:id', controller.deleteProduto);
 
 module.exports = router;
